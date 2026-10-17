@@ -4,6 +4,7 @@ import { useRegisterViewModel } from "./useRegister.viewModel";
 import { AppInputController } from "../../shared/components/AppInputController";
 import { AuthFormHeader } from "../../shared/components/AuthFormHeader";
 import { KeyboardContainer } from "../../shared/components/KeyboardContainer";
+import { router } from "expo-router";
 
 export const RegisterView: FC<ReturnType<typeof useRegisterViewModel>> = ({
   onSubmit,
@@ -22,15 +23,7 @@ export const RegisterView: FC<ReturnType<typeof useRegisterViewModel>> = ({
           name="name"
           leftIcon="person-outline"
           label="NOME"
-          placeholder="Digite seu nome"
-        />
-
-        <AppInputController
-          control={control}
-          name="email"
-          leftIcon="mail-outline"
-          label="E-MAIL"
-          placeholder="Digite seu e-mail"
+          placeholder="Seu nome completo"
         />
 
         <AppInputController
@@ -41,12 +34,23 @@ export const RegisterView: FC<ReturnType<typeof useRegisterViewModel>> = ({
           placeholder="(00) 00000-0000"
         />
 
+        <Text className="text-base mt-6 font-bold text-gray-500">Acesso</Text>
+
+        <AppInputController
+          control={control}
+          name="email"
+          leftIcon="mail-outline"
+          label="E-MAIL"
+          placeholder="mail@example.com.br"
+          keyboardType="email-address"
+        />
+
         <AppInputController
           control={control}
           name="password"
           leftIcon="lock-closed-outline"
           label="SENHA"
-          placeholder="Digite sua senha"
+          placeholder="Sua senha"
           secureTextEntry
         />
 
@@ -55,15 +59,16 @@ export const RegisterView: FC<ReturnType<typeof useRegisterViewModel>> = ({
           name="confirmPassword"
           leftIcon="lock-closed-outline"
           label="CONFIRMAR SENHA"
-          placeholder="Digite sua senha"
+          placeholder="Confirme a senha"
           secureTextEntry
         />
 
-        <TouchableOpacity
-          className="bg-purple-base p-4 text-white mx-4 rounded-md items-center"
-          onPress={onSubmit}
-        >
-          <Text className="text-white font-bold text-md">Registrar</Text>
+        <TouchableOpacity onPress={onSubmit}>
+          <Text>Registrar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.push("/login")}>
+          <Text>login</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardContainer>

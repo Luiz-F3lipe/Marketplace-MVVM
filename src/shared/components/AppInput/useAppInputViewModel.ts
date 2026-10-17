@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useState } from "react";
 import { BlurEvent, FocusEvent, TextInput } from "react-native";
 import { colors } from "../../../styles/colors";
 
@@ -21,9 +21,11 @@ export const useAppViewModel = ({
   onBlur,
   mask,
   onChangeText,
-  value
+  value,
 }: AppInputViewModelProps) => {
-  const [showPassword, setShowPassword] = useState<boolean>(secureTextEntry || false);
+  const [showPassword, setShowPassword] = useState<boolean>(
+    secureTextEntry || false,
+  );
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const inputRef = useRef<TextInput>(null);
@@ -37,13 +39,11 @@ export const useAppViewModel = ({
   };
 
   const handleFocus = (event: FocusEvent) => {
-    console.log('Focou no input')
     setIsFocused(true);
     onFocus?.(event);
   };
 
   const handleBlur = (event: BlurEvent) => {
-    console.log('Desfocou no input')
     setIsFocused(false);
     onBlur?.(event);
   };
@@ -71,6 +71,6 @@ export const useAppViewModel = ({
     handlePasswordToggle,
     showPassword,
     handleTextChange,
-    isFocused
-  }
-}
+    isFocused,
+  };
+};
