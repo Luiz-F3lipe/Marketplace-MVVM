@@ -3,10 +3,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterFormData, registerScheme } from "./register.scheme";
 import { useRegisterMutation } from "../../shared/queries/auth/use-register.mutation";
 import { useUserStore } from "../../shared/stores/user-store";
+import { useAppModal } from "../../shared/hooks/useAppModal";
 
 export const useRegisterViewModel = () => {
   const userRegisterMutation = useRegisterMutation();
   const { setSession } = useUserStore();
+  const modals = useAppModal();
 
   const {
     control,
@@ -20,18 +22,40 @@ export const useRegisterViewModel = () => {
       password: "",
       confirmPassword: "",
       phone: "",
-    }
+    },
   });
+
+  const handleSelectAvatar = () => {
+    modals.showSelection({
+      title: "Selecionar Foto",
+      message: "Escolha uma opção:",
+      options: [
+        {
+          text: "Galeria",
+          icon: "images",
+          variant: "primary",
+          onPress: () => alert("Funcionou Galeria"),
+        },
+        {
+          text: "Câmera",
+          icon: "camera",
+          variant: "primary",
+          onPress: () => alert("Funcionou Camera"),
+        },
+      ],
+    });
+  };
 
   const onSubmit = handleSubmit(async (userData) => {
     const { confirmPassword, ...registerData } = userData;
 
-    const mutationResponse = await userRegisterMutation.mutateAsync(registerData);
+    const mutationResponse =
+      await userRegisterMutation.mutateAsync(registerData);
 
     setSession({
       refreshToken: mutationResponse.refreshToken,
       token: mutationResponse.token,
-      user: mutationResponse.user
+      user: mutationResponse.user,
     });
   });
 
@@ -39,5 +63,6 @@ export const useRegisterViewModel = () => {
     control,
     errors,
     onSubmit,
+    handleSelectAvatar,
   };
-}
+};
